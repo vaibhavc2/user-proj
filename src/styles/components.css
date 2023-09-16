@@ -1,0 +1,9 @@
+@layer components {
+  .form-label {
+    @apply mx-auto mb-2 block px-[0.66rem] font-bold text-white sm:px-8;
+  }
+
+  .form-input {
+    @apply mx-auto my-5 mt-0 block w-[95%] rounded border-[2px] border-slate-500 bg-red-200 p-1 text-black focus:border-blue-600 focus:outline-none sm:w-[90%];
+  }
+}

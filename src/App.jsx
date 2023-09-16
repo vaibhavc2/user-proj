@@ -1,9 +1,8 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Home from "./components/Home";
+import Home from "./components/Home/Home";
 import PageNotFound from "./components/PageNotFound";
 import Header from "./components/Header";
-import Footer from "./components/Footer";
 
 const App = () => {
   return (
@@ -13,7 +12,6 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="*" element={<PageNotFound />} />
       </Routes>
-      <Footer />
     </Router>
   );
 };
