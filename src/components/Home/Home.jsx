@@ -1,9 +1,12 @@
 import React, { Fragment, useState } from "react";
 import AddUser from "./Users/AddUser";
 import UsersList from "./Users/UsersList";
+import ErrorModal from "./UI/ErrorModal";
 
 const Home = () => {
   const [usersList, setUsersList] = useState([]);
+
+  const [error, setError] = useState();
 
   const addUserHandler = (name, age) => {
     setUsersList((prevUsers) => [...prevUsers, { name, age }]);
@@ -12,9 +15,22 @@ const Home = () => {
     // When working in React, it isn't allowed to mutate the original state array, so we can't use the push() method directly.
   };
 
+  const errorHandler = (title, message) => {
+    setError((prev) => ({
+      ...prev,
+      title,
+      message
+    }));
+  };
+
+  const resetErrorHandler = () => {
+    setError(null);
+  };
+
   return (
     <Fragment>
-      <AddUser onAddUser={addUserHandler} />
+      {error && <ErrorModal error={error} resetError={resetErrorHandler} />}
+      <AddUser onAddUser={addUserHandler} giveError={errorHandler} />
       <UsersList usersList={usersList} />
     </Fragment>
   );

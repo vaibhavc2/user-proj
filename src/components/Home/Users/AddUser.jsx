@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
 import Card from "../UI/Card";
+import Button from "../UI/Button";
 
-const AddUser = ({ onAddUser }) => {
+const AddUser = ({ onAddUser, giveError }) => {
   const [username, setUsername] = useState("");
   const [age, setAge] = useState("");
 
@@ -10,16 +11,23 @@ const AddUser = ({ onAddUser }) => {
   const submitHandler = (e) => {
     e.preventDefault();
 
-    if (username.trim().length === 0 || age.trim().length === 0)
-      window.alert(`Enter both the fields!`);
-    else if (!isNaN(username[0]))
-      window.alert(`Username must not start with a number!`);
-    else if (+age > 80 || +age < 5)
+    if (username.trim().length === 0 || age.trim().length === 0) {
+      giveError(`Invalid Inputs`, `Enter both the fields!`);
+      return;
+    } else if (!isNaN(username[0])) {
+      giveError(`Invalid Inputs`, `Username must not start with a number!`);
+      return;
+    } else if (+age > 80 || +age < 5) {
       // (+ is appended for typecasting to number)
-      window.alert(`Age must be between 5 years to 80 years!`);
-    else if (specialChars.test(username))
-      window.alert(`Username must not contain any special characters!`);
-    else {
+      giveError(`Invalid Inputs`, `Age must be between 5 years to 80 years!`);
+      return;
+    } else if (specialChars.test(username)) {
+      giveError(
+        `Invalid Inputs`,
+        `Username must not contain any special characters!`
+      );
+      return;
+    } else {
       onAddUser(username, age);
       setUsername("");
       setAge("");
@@ -27,38 +35,35 @@ const AddUser = ({ onAddUser }) => {
   };
 
   return (
-    <Card className="h-[300px]">
-      <form onSubmit={submitHandler}>
-        <label className="form-label pt-4" htmlFor="username">
-          Username
-        </label>
-        <input
-          className="form-input"
-          type="text"
-          id="username"
-          onChange={(e) => setUsername(e.target.value)}
-          value={username}
-        />
+    <Fragment>
+      <Card className="h-[300px]">
+        <form onSubmit={submitHandler}>
+          <label className="form-label pt-4" htmlFor="username">
+            Username
+          </label>
+          <input
+            className="form-input"
+            type="text"
+            id="username"
+            onChange={(e) => setUsername(e.target.value)}
+            value={username}
+          />
 
-        <label className="form-label" htmlFor="age">
-          Age (years)
-        </label>
-        <input
-          className="form-input"
-          type="number"
-          id="age"
-          onChange={(e) => setAge(e.target.value)}
-          value={age}
-        />
+          <label className="form-label" htmlFor="age">
+            Age (years)
+          </label>
+          <input
+            className="form-input"
+            type="number"
+            id="age"
+            onChange={(e) => setAge(e.target.value)}
+            value={age}
+          />
 
-        <button
-          type="submit"
-          className="mx-auto my-5 mt-10 block rounded border-2 border-pink-200 bg-yellow-700 p-2 px-5 text-lg font-bold"
-        >
-          Add User
-        </button>
-      </form>
-    </Card>
+          <Button type="submit">Add User</Button>
+        </form>
+      </Card>
+    </Fragment>
   );
 };
 
