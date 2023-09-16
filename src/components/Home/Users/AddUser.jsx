@@ -1,18 +1,33 @@
 import React, { useState } from "react";
 import Card from "../UI/Card";
 
-const AddUser = () => {
+const AddUser = ({ onAddUser }) => {
   const [username, setUsername] = useState("");
-  const [age, setAge] = useState();
+  const [age, setAge] = useState("");
+
+  const specialChars = /[ `!@#$%^&*()_\-+=\[\]{};':"\\|,.<>\/?~ ]/;
 
   const submitHandler = (e) => {
     e.preventDefault();
 
-    window.alert(`Name: ${username}\nAge: ${age}`);
+    if (username.trim().length === 0 || age.trim().length === 0)
+      window.alert(`Enter both the fields!`);
+    else if (!isNaN(username[0]))
+      window.alert(`Username must not start with a number!`);
+    else if (+age > 80 || +age < 5)
+      // (+ is appended for typecasting to number)
+      window.alert(`Age must be between 5 years to 80 years!`);
+    else if (specialChars.test(username))
+      window.alert(`Username must not contain any special characters!`);
+    else {
+      onAddUser(username, age);
+      setUsername("");
+      setAge("");
+    }
   };
 
   return (
-    <Card className="mx-8 my-20 h-[300px] max-w-[40rem] rounded bg-purple-800 sm:mx-auto ">
+    <Card className="h-[300px]">
       <form onSubmit={submitHandler}>
         <label className="form-label pt-4" htmlFor="username">
           Username
@@ -22,7 +37,7 @@ const AddUser = () => {
           type="text"
           id="username"
           onChange={(e) => setUsername(e.target.value)}
-          // value={username}
+          value={username}
         />
 
         <label className="form-label" htmlFor="age">
@@ -33,7 +48,7 @@ const AddUser = () => {
           type="number"
           id="age"
           onChange={(e) => setAge(e.target.value)}
-          // value={age}
+          value={age}
         />
 
         <button
