@@ -45,6 +45,7 @@ const AddUser = ({ onAddUser, giveError }) => {
           <label className="form-label pt-4" htmlFor="username">
             Username
           </label>
+          {/* input/element using 'ref' is called: Uncontrolled element because react is not controlling its state */}
           <input
             className="form-input"
             type="text"
