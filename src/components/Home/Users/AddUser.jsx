@@ -1,41 +1,45 @@
-import React, { Fragment, useState } from "react";
+import React, { useRef, useState } from "react";
 import Card from "../UI/Card";
 import Button from "../UI/Button";
 
 const AddUser = ({ onAddUser, giveError }) => {
-  const [username, setUsername] = useState("");
-  const [age, setAge] = useState("");
+  const nameInputRef = useRef();
+  const ageInputRef = useRef();
+  // useRef returns an object which is the actual node: access it using .current
 
   const specialChars = /[ `!@#$%^&*()_\-+=\[\]{};':"\\|,.<>\/?~ ]/;
 
   const submitHandler = (e) => {
     e.preventDefault();
+    const enteredName = nameInputRef.current.value;
+    const enteredAge = ageInputRef.current.value;
 
-    if (username.trim().length === 0 || age.trim().length === 0) {
+    if (enteredName.trim().length === 0 || enteredAge.trim().length === 0) {
       giveError(`Invalid Inputs`, `Enter both the fields!`);
       return;
-    } else if (!isNaN(username[0])) {
+    } else if (!isNaN(enteredName[0])) {
       giveError(`Invalid Inputs`, `Username must not start with a number!`);
       return;
-    } else if (+age > 80 || +age < 5) {
+    } else if (+enteredAge > 80 || +enteredAge < 5) {
       // (+ is appended for typecasting to number)
       giveError(`Invalid Inputs`, `Age must be between 5 years to 80 years!`);
       return;
-    } else if (specialChars.test(username)) {
+    } else if (specialChars.test(enteredName)) {
       giveError(
         `Invalid Inputs`,
         `Username must not contain any special characters!`
       );
       return;
     } else {
-      onAddUser(username, age);
-      setUsername("");
-      setAge("");
+      onAddUser(enteredName, enteredAge);
+      // Bad idea to manipulate the DOM manually!! but can do it here, it's an edge case so it is fine
+      nameInputRef.current.value = "";
+      ageInputRef.current.value = "";
     }
   };
 
   return (
-    <Fragment>
+    <>
       <Card className="h-[300px]">
         <form onSubmit={submitHandler}>
           <label className="form-label pt-4" htmlFor="username">
@@ -45,8 +49,7 @@ const AddUser = ({ onAddUser, giveError }) => {
             className="form-input"
             type="text"
             id="username"
-            onChange={(e) => setUsername(e.target.value)}
-            value={username}
+            ref={nameInputRef}
           />
 
           <label className="form-label" htmlFor="age">
@@ -56,14 +59,13 @@ const AddUser = ({ onAddUser, giveError }) => {
             className="form-input"
             type="number"
             id="age"
-            onChange={(e) => setAge(e.target.value)}
-            value={age}
+            ref={ageInputRef}
           />
 
           <Button type="submit">Add User</Button>
         </form>
       </Card>
-    </Fragment>
+    </>
   );
 };
 

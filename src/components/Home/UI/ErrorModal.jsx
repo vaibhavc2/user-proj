@@ -14,8 +14,6 @@ const ErrorModal = ({ error, resetError }) => {
         <ModalOverlay error={error} resetError={resetError} />,
         document.getElementById("overlay-root")
       )}
-      {/* <Backdrop resetError={resetError} />
-      <ModalOverlay error={error} resetError={resetError} /> */}
     </>
   );
 };
