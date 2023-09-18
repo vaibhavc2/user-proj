@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { useState } from "react";
 import AddUser from "./Users/AddUser";
 import UsersList from "./Users/UsersList";
 import ErrorModal from "./UI/ErrorModal";
@@ -28,11 +28,11 @@ const Home = () => {
   };
 
   return (
-    <Fragment>
+    <>
       {error && <ErrorModal error={error} resetError={resetErrorHandler} />}
       <AddUser onAddUser={addUserHandler} giveError={errorHandler} />
       <UsersList usersList={usersList} />
-    </Fragment>
+    </>
   );
 };
 

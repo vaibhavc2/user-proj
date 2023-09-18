@@ -4,8 +4,8 @@ import { v4 as uuidv4 } from "uuid";
 
 const UsersList = ({ usersList }) => {
   return (
-    <Card className="pb-5">
-      <h1 className="py-5 text-center text-xl font-bold underline">
+    <Card className="bg-yellow-500 pb-5">
+      <h1 className="py-5 text-center text-xl font-bold text-black underline">
         Added Users
       </h1>
       <ul className="flex flex-col items-center ">
